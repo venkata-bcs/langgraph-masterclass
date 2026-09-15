@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# LangGraph Tutorial -- course-wide requirements.
+#
+# One environment for the whole course: every chapter's code example runs
+# against this same install, so nothing you haven't installed yet shows up
+# mid-chapter. Grouped by what unlocks what, not just alphabetically.
+#
+#   python -m venv .venv
+#   .venv\Scripts\pip install -r requirements.txt      (Windows)
+#   .venv/bin/pip install -r requirements.txt           (macOS/Linux)
+#
+# Provider keys (Groq / Ollama Cloud / OpenRouter) are read the same way as
+# the ml-automation-genai-agents-agenticloop demo project's settings.config --
+# see getting-started/environment-setup/environment_setup.md.
+# ---------------------------------------------------------------------------
+
+# --- Core (every chapter from "Your First Graph" onward) -------------------
+langgraph>=0.2.60
+langchain-core>=0.3.0
+python-dotenv>=1.0.1
+
+# --- Tools & Agents / Multi-Agent Systems (LLM provider SDKs) --------------
+# Standardized on Groq + Ollama Cloud + OpenRouter -- the providers this repo
+# already has keys for -- instead of OpenAI/Anthropic.
+langchain-groq>=0.2.0
+langchain-ollama>=0.2.0
+langchain-openai>=0.2.0            # also used for OpenRouter (OpenAI-compatible endpoint)
+
+# --- Persistence & Memory ----------------------------------------------------
+# Start with SQLite, not bare in-memory: one local file, built on Python's
+# stdlib sqlite3, and it actually survives a process restart.
+langgraph-checkpoint-sqlite>=2.0.0
+aiosqlite>=0.20.0
+# Postgres is the production backend, covered once you outgrow a single
+# file/single-process store -- uncomment when that chapter needs it:
+# langgraph-checkpoint-postgres>=2.0.0
+# psycopg[binary,pool]>=3.2.0
+
+# --- Retrieval Augmented Generation -------------------------------------------
+langchain-community>=0.3.0
+langchain-text-splitters>=0.3.0
+faiss-cpu>=1.8.0                    # local, embedded vector store -- no server to run
+beautifulsoup4>=4.12.0              # for the web-page loader example
+
+# --- Streaming to a Frontend --------------------------------------------------
+fastapi>=0.115.0
+uvicorn>=0.32.0
+websockets>=13.0
+
+# --- Testing, Debugging and Observability -------------------------------------
+pytest>=8.3.0
+langsmith>=0.1.147
+
+# --- Deployment ----------------------------------------------------------------
+langgraph-cli[inmem]>=0.1.75
