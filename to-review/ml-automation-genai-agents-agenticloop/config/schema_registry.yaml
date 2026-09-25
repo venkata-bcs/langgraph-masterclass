@@ -1,0 +1,63 @@
+# Schema Registry
+#
+# This file is the single source of truth for what the genAI data generator
+# produces, and how schema evolution is expressed and detected.
+#
+# How to evolve the schema:
+#   1. To add a column to an already-active table, delete the leading '#'
+#      on that column's line under `columns:`.
+#   2. To turn on a whole new table, flip its `active:` flag to `true`
+#      (and uncomment whichever of its columns you want active).
+#
+# The schema-evolution agent (src/schema_evolution) diffs this file against
+# its last-seen snapshot on every run. Any newly-uncommented column or newly
+# activated table is detected automatically and triggers a fresh
+# genai_datagen run so the generated CSVs pick up the change.
+
+tables:
+  products:
+    active: true
+    columns:
+      - product_id
+      - product_name
+      - category
+      - unit_price
+      - supplier
+      - created_at
+      # - product_category_id      # NEW: FK link, activate once 'product-category' below is active
+      # - supplier_id              # NEW: FK link, activate once 'suppliers' below is active
+
+  inventory:
+    active: true
+    columns:
+      - inventory_id
+      - product_id
+      - warehouse
+      - quantity_on_hand
+      - reorder_level
+      - last_restocked_at
+
+  product-category:
+    active: false
+    columns:
+      - category_id
+      - category_name
+      - category_description
+      - parent_category_id
+
+  product-prices-month-year:
+    active: false
+    columns:
+      - price_id
+      - product_id
+      - month_year
+      - list_price
+      - discount_pct
+
+  suppliers:
+    active: false
+    columns:
+      - supplier_id
+      - supplier_name
+      - region
+      - reliability_score

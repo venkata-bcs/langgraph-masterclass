@@ -2,7 +2,6 @@
 destinations from one conditional edge."""
 import operator
 from typing import Annotated, TypedDict
-
 from langgraph.graph import StateGraph, START, END
 
 
